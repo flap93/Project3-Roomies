@@ -19,3 +19,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+node_modules/
+config/production.json
+config/default.json
+client/build
+client/.eslintcache
