@@ -12,62 +12,48 @@ const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 
 
-// @route       POST api/users
-// @description Register user
-// @access      Public
-
 router.post(
-    '/',
-    [
-        check('name', 'Name is required').notEmpty(),
-        check('email', 'Please include a valid email').isEmail(),
-        check(
-            'password',
-            'Please enter a password with 6 or more characters'
-          ).isLength({ min: 6 })
-    ],
-    async (req, res) => {
-        const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-              return res.status(400).json({ errors: errors.array() });
-            }
-            
-            
-        const { name, email, password } = req.body;
-            
-        try {
-
-        //  SEE IF THE USER EXIST
-        let user = await User.findOne({ email });
-
-        if (user) {
-          return res
-           .status(400)
-           .json({ errors: [{ msg: 'User already exists' }] });
+  '/',
+  check('name', 'Name is required').notEmpty(),
+  check('email', 'Please include a valid email').isEmail(),
+  check(
+    'password',
+    'Please enter a password with 6 or more characters'
+  ).isLength({ min: 6 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
- // GET USERS GRAVATAR
+    const { name, email, password } = req.body;
 
- const avatar = normalize(
-    gravatar.url(email, {
-      s: '200',
-      r: 'pg',
-      d: 'mm'
-    }),
-    { forceHttps: true }
-  );
+    try {
+      let user = await User.findOne({ email });
 
-  user = new User({
-    name,
-    email,
-    avatar,
-    password
-  });
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
+      }
 
+      const avatar = normalize(
+        gravatar.url(email, {
+          s: '200',
+          r: 'pg',
+          d: 'mm'
+        }),
+        { forceHttps: true }
+      );
 
- // ENCRYPT PASSWORD
+      user = new User({
+        name,
+        email,
+        avatar,
+        password
+      });
 
- const salt = await bcrypt.genSalt(10);
+      const salt = await bcrypt.genSalt(10);
 
       user.password = await bcrypt.hash(password, salt);
 
@@ -79,26 +65,21 @@ router.post(
         }
       };
 
-
- // RETURN JSON WEB TOKEN
-
- jwt.sign(
-    payload,
-    config.get('jwtSecret'),
-    { expiresIn: '5 days' },
-    (err, token) => {
-      if (err) throw err;
-      res.json({ token });
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: '5 days' },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
     }
-  );
-  } catch (err) {
-  console.error(err.message);
-  res.status(500).send('Server error');
   }
- }
 );
-
- 
 
 
 

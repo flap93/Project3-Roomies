@@ -5,8 +5,9 @@ export const Navbar = () => {
     return (
         <nav className="navbar bg-dark">
       <h1>
-          {/* remember add the class to add logo  */}
-        <a ><i></i> MyRoomies</a>
+          <Link to='/'>
+          <i class="fas fa-house-user"></i> MyRoomies
+        </Link>
       </h1>
       <ul>
       <li>
