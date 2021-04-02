@@ -45,7 +45,7 @@ const onChange = e =>
       <p className="lead">
         <i className="fas fa-user" /> Sign Into Your Account
       </p>
-      <form className="form" onSubmit={onSubmit}>
+      <form className="form" onSubmit={e => onSubmit (e)}>
         
         <div className="form-group">
           <input

@@ -7,9 +7,17 @@ import Login from './components/auth/Login';
 import './App.css';
 
 
+
+// Redux
+import { Provider } from 'react-redux';
+import store from './store';
+// import { loadUser } from './actions/auth';
+// import setAuthToken from './utils/setAuthToken';
+
 import './App.css';
 
 const App = () => (
+  <Provider store={store}>
    <Router>
    <Fragment>
           <Navbar />
@@ -22,6 +30,7 @@ const App = () => (
             </section>
         </Fragment>
     </Router>
+     </Provider>
 );
 
 
