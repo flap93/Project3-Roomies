@@ -5,7 +5,7 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
-//import { LOGOUT } from './actions/types';
+import { LOGOUT } from './actions/types';
 
 
 
@@ -17,9 +17,9 @@ import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
-if(localStorage.token) {
-  setAuthToken(localStorage.token);
-}
+// if(localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
 // const App = () => {
 //   useEffect(() => {
@@ -51,9 +51,17 @@ if(localStorage.token) {
 
 
 const App = () => {
-     useEffect(() => {
-      store.dispatch(loadUser());
-}, []);
+  useEffect(() => {
+    // check for token in LS
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    store.dispatch(loadUser());
+    // log user out from all tabs if they log out in one tab
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOGOUT });
+    });
+  }, []);
 
     return(
   <Provider store={store}>
@@ -71,7 +79,8 @@ const App = () => {
         </Fragment>
     </Router>
      </Provider>
-)};
+)
+};
 
 
 

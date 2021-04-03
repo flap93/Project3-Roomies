@@ -1,13 +1,13 @@
-// import axios from 'axios';
-// import store from '../store';
+import axios from 'axios';
+import store from '../store';
 // import { LOGOUT } from '../actions/types';
 
-// const api = axios.create({
-//   baseURL: '/api',
-//   headers: {
-//     'Content-Type': 'application/json'
-//   }
-// });
+const api = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 /**
  intercept any error responses from the api
  and check if the token is no longer valid.
@@ -26,4 +26,4 @@
 //   }
 // );
 
-// export default api;
+export default api;
