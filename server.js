@@ -24,4 +24,8 @@ app.use('/api/posts', require('./routes/api/posts'));
 
 const PORT = process.env.PORT || 5000;
 
+app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '/client/build/index.html'))
+})
+
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
