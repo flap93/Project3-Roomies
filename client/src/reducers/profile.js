@@ -47,26 +47,12 @@ const initialState = {
             return {
                   ...state,
                   profile: null,
-                  repos: [],
                   loading: false
                 };
     
             default:
             return state;
-    //   case GET_REPOS:
-    //     return {
-    //       ...state,
-    //       repos: payload,
-    //       loading: false
-    //     };
-    //   case NO_REPOS:
-    //     return {
-    //       ...state,
-    //       repos: []
-    //     };
-    //   default:
-    //     return state;
-    // }
+   
   }
 }
   
