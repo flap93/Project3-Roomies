@@ -183,7 +183,7 @@ img {
 .bg-danger,
 .badge-danger,
 .alert-danger {
-  background: var(--danger-color);
+  background: #1e93d8;
   color: #fff;
 }
 
@@ -214,7 +214,7 @@ img {
 }
 
 .round-img {
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .line {
