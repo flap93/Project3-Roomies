@@ -14,6 +14,9 @@ app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.send('API Running'));
 
+//Static files for our backend 
+app.use(express.static(path.join(__dirname, '/client/build')))
+
 
 // Define Routes
 
