@@ -10,6 +10,8 @@ const app = express();
 
 connectDB();
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Init Middleware
 
 app.use(express.json({ extended: false }));
@@ -17,7 +19,7 @@ app.use(express.json({ extended: false }));
 app.get('/', (req, res) => res.send('API Running'));
 
 //Static files for our backend 
-app.use(express.static(path.join(__dirname, '/client/build')))
+// app.use(express.static(path.join(__dirname, '/client/build')))
 
 
 // Define Routes
@@ -29,8 +31,13 @@ app.use('/api/posts', require('./routes/api/posts'));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('*', (req, res, next) => {
-    res.sendFile(path.join(__dirname, '/client/build/index.html'))
-})
+// app.get('*', (req, res, next) => {
+ //   res.sendFile(path.join(__dirname, '/client/build/index.html'))
+//})
+app.use((req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+  });
+
 
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
